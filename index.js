@@ -14,8 +14,8 @@ euroCents.sort((a, b) => b - a);
 euroCoins.sort((a, b) => b - a);
 
 //write a function to calculate change
-let bill = 3.75;
-let amountPaid = 50;
+let bill = 3;
+let amountPaid = 60;
 
 let change = 0;
 let overdueMessage;
@@ -32,38 +32,44 @@ function breakdownChange() {
         for (let item of euroNotes) { //check for the notes in the change
             if ((Math.sign(change - item)) === 0) { //if there is no remainder left, then push the last item and break the loop.
                 changeBreakdown["euroNotes"].push(item);
+                change=change-item;
                 break;
             } else if ((Math.sign(change - item)) === 1) { //as long as there is a positive remainder, continue looking for change.
                 change = change - item;
                 changeBreakdown["euroNotes"].push(item);
-                if (change > item) { //if the change is still greater than the current item, use the current note.
+                if (change >= item) { //if the change is still greater than the current item, use the current note.
                     change = change - item;
                     changeBreakdown["euroNotes"].push(item);
                 }
             }
         }
+
         for (let item of euroCoins) { //check for the coins in the change and follow the same above pattern. 
             if ((Math.sign(change - item)) === 0) {
                 changeBreakdown["euroCoins"].push(item);
+                change=change-item;
                 break;
             } else if ((Math.sign(change - item)) === 1) {
-                change = change - item;
+                change = change - item;                
                 changeBreakdown["euroCoins"].push(item);
-                if (change > item) {
+                console.log(`coins change: ${change}, item: ${item}`)
+                if (change >= item) {
                     change = change - item;
                     changeBreakdown["euroCoins"].push(item);
                 }
             }
         }
+
+
         for (let item of euroCents) { //check for the cents and follow the same above pattern.       
             if ((Math.sign(change - item)) === 0) {
                 changeBreakdown["euroCents"].push(item);
+                change=change-item;
                 break;
             } else if ((Math.sign(change - item)) === 1) {
                 change = (change - item).toFixed(2);
-                console.log(change)
                 changeBreakdown["euroCents"].push(item);
-                if (change > item) {
+                if (change >= item) {
                     change = (change - item).toFixed(2);
                     changeBreakdown["euroCents"].push(item);
                 }
